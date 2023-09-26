@@ -13,7 +13,12 @@ import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import * as time from './time.js';
+import {fileURLToPath, pathToFileURL} from "url";
+import {dirname} from 'path';
 
+const mongoToken = "mongodb+srv://cocoa:1234@raidenshogun.bvynira.mongodb.net"
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 console.log(
   chalk.cyan(`[${time.getTime()}] ` + "[Discord.js 상태]: 연결 중...")
@@ -23,29 +28,38 @@ console.log(
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.buttons = new Collection();
 client.commands = new Collection();
-module.exports.client = client;
-require(`./handlers/EventHandler`)(client);
+export { client }
+import { eventHandler } from './handlers/EventHandler.js';
+import mongoose from "mongoose";
+
+eventHandler(client);
 
 // 슬래시 커맨드 읽기
 const commandsPath = path.join(__dirname, "commands");
 const commandFiles = fs
   .readdirSync(commandsPath)
-  .filter((file) => file.endsWith(".js"));
+  .filter((file) => file.endsWith(".mjs"));
 
+// Assuming `commandFiles` contains a list of file names like in your previous code
 for (const file of commandFiles) {
-  const filePath = path.join(commandsPath, file);
-  const command = require(filePath);
-  // Set a new item in the Collection with the key as the command name and the value as the exported module
-  if ("data" in command && "execute" in command) {
-    client.commands.set(command.data.name, command);
-  } else {
-    console.log(
-      chalk.redBright(
-        `[${time.getTime()}] ` +
-          `[Discord.js 상태]: ${filePath}에 있는 커맨드는 data나 execute 프로퍼티가 없습니다.`
-      )
-    );
-  }
+  const commandModulePath = pathToFileURL(path.resolve(__dirname, `./commands/${file}`));
+
+  // Use dynamic import to load the module
+  import(commandModulePath.href).then((module) => {
+    if ("data" in module.default && "execute" in module.default) {
+      const command = module.default;
+      client.commands.set(command.data.name, command);
+    } else {
+      console.log(
+          chalk.redBright(
+              `[${new Date().getTime()}] ` +
+              `[Discord.js 상태]: ${file}에 있는 커맨드는 data나 execute 프로퍼티가 없습니다.`
+          )
+      );
+    }
+  }).catch((error) => {
+    console.error(`Error importing ${file}: ${error}`);
+  });
 }
 
 // EventHandler.js 불러서 이벤트 핸들링하기
@@ -59,3 +73,10 @@ try {
     chalk.redBright(`[${time.getTime()}] ` + "[Discord.js 상태]: 연결 실패.")
   );
 }
+
+(async () => {
+  mongoose.set("strictQuery", false);
+  await mongoose
+      .connect(mongoToken, { dbName: "RaidenShogun" })
+      .catch(console.error);
+})();
