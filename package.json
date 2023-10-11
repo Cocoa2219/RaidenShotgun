@@ -4,10 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.44",
     "chalk": "^5.3.0",
     "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
-    "mongoose": "^7.5.3"
+    "hoyoapi": "^1.2.0",
+    "mongoose": "^7.5.3",
+    "undici": "^5.25.2"
   },
   "type": "module"
 }

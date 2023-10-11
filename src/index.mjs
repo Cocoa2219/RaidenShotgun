@@ -16,12 +16,13 @@ import * as time from './time.js';
 import {fileURLToPath, pathToFileURL} from "url";
 import {dirname} from 'path';
 
+
 const mongoToken = "mongodb+srv://cocoa:1234@raidenshogun.bvynira.mongodb.net"
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 console.log(
-  chalk.cyan(`[${time.getTime()}] ` + "[Discord.js 상태]: 연결 중...")
+    chalk.cyan(`[${time.getTime()}] ` + "[Discord.js 상태]: 연결 중...")
 );
 
 // 클라이언트 인스턴스 새로 만들기
@@ -37,8 +38,8 @@ eventHandler(client);
 // 슬래시 커맨드 읽기
 const commandsPath = path.join(__dirname, "commands");
 const commandFiles = fs
-  .readdirSync(commandsPath)
-  .filter((file) => file.endsWith(".mjs"));
+    .readdirSync(commandsPath)
+    .filter((file) => file.endsWith(".mjs"));
 
 // Assuming `commandFiles` contains a list of file names like in your previous code
 for (const file of commandFiles) {
@@ -70,7 +71,7 @@ try {
   client.login(process.env.BOT_TOKEN);
 } catch (error) {
   console.log(
-    chalk.redBright(`[${time.getTime()}] ` + "[Discord.js 상태]: 연결 실패.")
+      chalk.redBright(`[${time.getTime()}] ` + "[Discord.js 상태]: 연결 실패.")
   );
 }
 
