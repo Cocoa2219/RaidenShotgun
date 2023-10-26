@@ -90,8 +90,8 @@ export default {
                         .then(async submitInteraction => {
                             const cookie = submitInteraction.fields.getTextInputValue("cookie")
                             const uid = submitInteraction.fields.getTextInputValue("uid")
-                            const ltuidRegex = /ltuid_v2=(\d{9})/
-                            const ltokenRegex = /ltoken_v2=(.*);/
+                            const ltuidRegex = /ltuid=(\d{9})/
+                            const ltokenRegex = /ltoken=(.*);/
                             const ltuidMatch = ltuidRegex.exec(cookie);
                             const ltokenMatch = ltokenRegex.exec(cookie);
                             let ltuid;
@@ -133,7 +133,7 @@ export default {
                             i.editReply({content: "1분이 지나 제출을 비활성화했어.", components: []})
                         })
                 })
-                inputCollector.on('end', collected => {
+                inputCollector.on('time', collected => {
                     if (collected.size === 0) {
                         interaction.editReply({content: "1분이 지나 버튼을 비활성화했어.", components: []})
                     }

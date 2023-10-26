@@ -24,12 +24,12 @@ for (const file of commandFiles) {
 }
 
 // Construct and prepare an instance of the REST module
-const rest = new REST().setToken(process.env.BOT_TOKEN);
+const rest = new REST().setToken("MTE1NTg2NjQ0MTEzNzAxMjc4Ng.GVLH_y.Dqgd6-okUVd5xK4KqkK8SBzoTu_qYIvDomkyIE");
 
 // and deploy your commands!
 (async () => {
     try {
-        await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
+        await rest.put(Routes.applicationCommands("1155866441137012786"), {
             body: [],
         });
         console.log(
@@ -46,7 +46,7 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 
         // The put method is used to fully refresh all commands in the guild with the current set
         const data = await rest.put(
-            Routes.applicationCommands(process.env.CLIENT_ID),
+            Routes.applicationCommands("1155866441137012786"),
             {
                 body: commands,
             }

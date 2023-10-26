@@ -39,7 +39,7 @@ export default {
                     User.deleteMany({ user: interaction.user.tag }).then((result) => {
                         console.log(result)
                     });
-                    await unregisterInteraction.reply({content: `사용자 ${interaction.user.tag}를 등록 해제했어.`, ephemeral: true})
+                    await interaction.editReply({content: `사용자 ${interaction.user.tag}를 등록 해제했어.`, ephemeral: true})
                 })
                 unregisterCollector.on('end', collected => {
                     if (collected.size === 0) {

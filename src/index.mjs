@@ -68,7 +68,7 @@ client.handleEvents();
 
 // 로그인하기
 try {
-  client.login(process.env.BOT_TOKEN);
+  client.login("MTE1NTg2NjQ0MTEzNzAxMjc4Ng.GVLH_y.Dqgd6-okUVd5xK4KqkK8SBzoTu_qYIvDomkyIE");
 } catch (error) {
   console.log(
       chalk.redBright(`[${time.getTime()}] ` + "[Discord.js 상태]: 연결 실패.")
